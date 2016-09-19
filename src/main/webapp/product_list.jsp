@@ -74,6 +74,9 @@
                             <div class="col-xs-6">
                                 <form:input type="text" class="form-control" path="priceFrom" id="priceFrom"/>
                             </div>
+                            <div class="col-xs-1" style="margin: 5px -20px 0px -20px;">
+                                to
+                            </div>
                             <div class="col-xs-6">
                                 <form:input type="text" class="form-control" path="priceTo" id="priceTo"/>
                             </div>
@@ -106,7 +109,7 @@
                                         <td>${product.name}</td>
                                         <td>${product.price}</td>
                                         <td>${product.createDateDisplay}</td>
-                                        <td>${product.category.parentId} / ${product.category.name}</td>
+                                        <td>${product.categoryParent} / ${product.category}</td>
                                         <td>
                                             <a href="edit.html?id=${product.id}"><button type="button" class="btn btn-default" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></a>
                                             <a href="delete.html?id=${product.id}"><button type="button" class="btn btn-default" aria-label="Delete" onclick="return confirm('Are you sure to delete?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
@@ -118,7 +121,7 @@
 
                         <div class="row">
                             <div class="col-md-2"></div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <c:if test="${productSearchForm.lastPage > 1}">
                                     <form id="frmPagination" method="GET">
                                         <input type="hidden" name="paginationPage" id="paginationPage" value="${productSearchForm.currentPage}" />
@@ -129,7 +132,7 @@
                                         <a class="btn_gray" id="btn_previouspage" href="javascript:void(0);" onclick="submitPagination('frmPagination', '${productSearchForm.previousPage}');">&#171; Previous Page</a>&#160;&#160;
                                         Show Page
                                         &#160;&#160;:&#160;&#160;
-                                        <input type="text" id="txtPaginationPage" class="paging" onkeypress="enterKeyPress(event, 'frmPagination', document.getElementById('txtPaginationPage').value);" value="${productSearchForm.currentPage}" />
+                                        <input type="text" id="txtPaginationPage" style="width: 50px;" onkeypress="enterKeyPress(event, 'frmPagination', document.getElementById('txtPaginationPage').value);" value="${productSearchForm.currentPage}" />
                                         &#160;&#160;/&#160;&#160; ${productSearchForm.lastPage}&#160;&#160;
                                         <a class="btn_gray" id="btn_gotopage" href="javascript:void(0);" onclick="submitPagination('frmPagination',  document.getElementById('txtPaginationPage').value);">GO</a>&#160;&#160;
                                         <a class="btn_gray" id="btn_nextpage" href="javascript:void(0);" onclick="submitPagination('frmPagination', '${productSearchForm.nextPage}');">Next Page &#187;</a>

@@ -2,6 +2,7 @@ package com.tury.controller;
 
 import com.tury.domain.Category;
 import com.tury.domain.Product;
+import com.tury.domain.ProductDisplay;
 import com.tury.domain.ProductSearchForm;
 import com.tury.mappers.CategoryMapper;
 import com.tury.mappers.ProductMapper;
@@ -36,9 +37,20 @@ public class ProductController {
         productSearchForm.setTotalSize(productMapper.searchIds(productSearchForm).size());
         productSearchForm.handlePageToRedirect(request.getParameter("paginationPage"));
 
-        List<Product> productList = productMapper.searchWithLimit(productSearchForm);
-        model.addAttribute("productList", productList);
-        model.addAttribute("size", productList.size());
+        Map<String, String> categoryParentMap = getCategoryParentMap();
+        List<ProductDisplay> productDisplayList =
+                productMapper.searchWithLimit(productSearchForm)
+                        .stream()
+                        .map(p -> new ProductDisplay(
+                                p.getId(),
+                                p.getName(),
+                                String.format( "%.2f", p.getPrice()),
+                                p.getCreateDate(),
+                                categoryParentMap.get(p.getCategory().getParentId().toString()),
+                                p.getCategory().getName()))
+                        .collect(Collectors.toList());
+        model.addAttribute("productList", productDisplayList);
+        model.addAttribute("size", productDisplayList.size());
         model.addAttribute("categoryMap", getCategoryMap());
         model.addAttribute("categoryParentMap", getCategoryParentMap());
         return "product_list";

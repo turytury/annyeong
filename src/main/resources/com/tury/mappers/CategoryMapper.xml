@@ -20,7 +20,7 @@
 
 	<select id="findByParentId" resultMap="CategoryResultMap">
 		SELECT id, name, parentId FROM category WHERE parentId = #{parentId}
-		ORDER BY name
+		ORDER BY name ASC
 	</select>
 		
 	<insert id="create" parameterType="Category" useGeneratedKeys="true" keyProperty="id">
