@@ -1,0 +1,92 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tury.mappers.ProductMapper">
+	
+	<resultMap id="ProductResultMap" type="Product">
+	  	<id column="id" property="id" />
+	 	<result column="name" property="name"  />
+		<result column="price" property="price"  />
+		<result column="createDate" property="createDate"  />
+		<association column="categoryId" property="category" javaType="Category">
+			<id column="categoryId" property="id" />
+			<result column="categoryName" property="name" />
+			<result column="parentId" property="parentId" />
+		</association>
+	</resultMap>
+
+	<select id="findAll" resultMap="ProductResultMap">
+		SELECT p.id, p.name, p.price, p.createDate, c.id as categoryId, c.name as categoryName, c.parentId
+		FROM product p
+		LEFT JOIN category c ON p.categoryId = c.id
+	</select>
+		
+	<select id="findById" resultMap="ProductResultMap">
+		SELECT p.id, p.name, p.price, p.createDate, c.id as categoryId, c.name as categoryName, c.parentId
+		FROM product p
+		LEFT JOIN category c ON p.categoryId = c.id
+		WHERE p.id = #{id}
+	</select>
+
+	<select id="searchIds" parameterType="ProductSearchForm" resultMap="ProductResultMap">
+		SELECT id FROM product WHERE id != 0
+		<if test="name != null and name != ''">
+			<bind name="pattern" value="'%' + _parameter.getName() + '%'" />
+			AND name like #{pattern}
+		</if>
+		<if test="categoryId != null and categoryId != '' and categoryId != 0">
+			AND categoryId = #{categoryId}
+		</if>
+		<if test="priceFrom != null and priceFrom != ''">
+			<![CDATA[
+				AND price >= #{priceFrom}
+			]]>
+		</if>
+		<if test="priceTo!= null and priceTo != ''">
+			<![CDATA[
+				AND price <= #{priceTo}
+			]]>
+		</if>
+	</select>
+
+	<select id="searchWithLimit" parameterType="ProductSearchForm" resultMap="ProductResultMap">
+		SELECT p.id, p.name, p.price, p.createDate, c.id as categoryId, c.name as categoryName, c.parentId
+		FROM product p
+		LEFT JOIN category c ON p.categoryId = c.id
+		WHERE p.id != 0
+		<if test="name != null and name != ''">
+			<bind name="pattern" value="'%' + _parameter.getName() + '%'" />
+			AND p.name like #{pattern}
+		</if>
+		<if test="categoryId != null and categoryId != '' and categoryId != 0">
+			AND p.categoryId = #{categoryId}
+		</if>
+		<if test="priceFrom != null and priceFrom != ''">
+			<![CDATA[
+				AND p.price >= #{priceFrom}
+			]]>
+		</if>
+		<if test="priceTo!= null and priceTo != ''">
+			<![CDATA[
+				AND p.price <= #{priceTo}
+			]]>
+		</if>
+		ORDER BY p.createDate DESC
+		LIMIT #{rowStart}, #{itemPerPage}
+	</select>
+
+	<insert id="create" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO product(name, price, createDate, categoryId) VALUES(#{name}, #{price}, #{createDate}, #{category.id})
+	</insert>
+
+	<update id="update" parameterType="Product">
+		UPDATE product SET name = #{name}, price = #{price}, categoryId = #{category.id} WHERE id = #{id};
+	</update>
+
+	<delete id="delete" parameterType = "int">
+		DELETE FROM product WHERE id = #{id};
+	</delete>
+
+</mapper>
+
