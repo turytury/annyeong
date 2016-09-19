@@ -10,6 +10,8 @@ public interface CategoryMapper {
 
 	Category findById(Integer id);
 
+	Category findLastRow();
+
 	List<Category> findAll();
 
 	List<Category> findByParentId(Integer parentId);

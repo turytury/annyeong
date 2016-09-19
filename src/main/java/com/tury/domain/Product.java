@@ -12,8 +12,7 @@ public class Product {
 
 	public Product() {}
 
-	public Product(Integer id, String name, Double price, Date createDate, Category category) {
-		this.id = id;
+	public Product(String name, Double price, Date createDate, Category category) {
 		this.name = name;
 		this.price = price;
 		this.createDate = createDate;

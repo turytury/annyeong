@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +19,7 @@ public class CategoryMapperTest {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
-	
+
 	@Test
 	public void findAllCategorys() {
 		List<Category> categories = categoryMapper.findAll();
@@ -32,14 +31,5 @@ public class CategoryMapperTest {
 	public void findCategoryById() {
 		Category category = categoryMapper.findById(1);
 		assertNotNull(category);
-	}
-	
-	@Test
-	public void createCategory() {
-		Category category = new Category(8, "category", 2);
-		categoryMapper.create(category);
-		Category newCategory = categoryMapper.findById(category.getId());
-		assertEquals("category", newCategory.getName());
-		assertEquals("2", newCategory.getParentId().toString());
 	}
 }

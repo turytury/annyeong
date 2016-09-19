@@ -22,7 +22,11 @@
 		SELECT id, name, parentId FROM category WHERE parentId = #{parentId}
 		ORDER BY name ASC
 	</select>
-		
+
+	<select id="findLastRow" resultMap="CategoryResultMap">
+		SELECT id, name, parentId FROM category ORDER BY id DESC LIMIT 1;
+	</select>
+
 	<insert id="create" parameterType="Category" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO category(name, parentId) VALUES(#{name}, #{parentId})
 	</insert>

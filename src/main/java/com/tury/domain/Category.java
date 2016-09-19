@@ -7,8 +7,7 @@ public class Category {
 	
 	public Category() {}
 
-	public Category(Integer id, String name, Integer parentId) {
-		this.id = id;
+	public Category(String name, Integer parentId) {
 		this.name = name;
 		this.parentId = parentId;
 	}
