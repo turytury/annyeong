@@ -15,5 +15,7 @@ CREATE TABLE IF NOT EXISTS product(
     createDate DATETIME NOT NULL,
     categoryId INT NOT NULL,
     PRIMARY KEY (id),
+    INDEX name (name),
+    INDEx price (price),
     INDEX categoryId (categoryId)
 );

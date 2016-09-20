@@ -19,9 +19,10 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     private static final int categoryAmountLevelTwo = 7;
     private static final int productAmount = 100;
 
-    private static final String categoryNameLevelOne = "CF";
-    private static final String categoryNameLevelTwo = "CS";
-    private static final String productName = "P";
+    private static final String categoryPrefixLevelOne = "CF";
+    private static final String categoryPrefixLevelTwo = "CS";
+    private static final String productPrefix = "P";
+    private static final Double productPrice = 500.00;
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -32,28 +33,27 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         if(categoryMapper.findAll().isEmpty()) {
+            Calendar calendar = Calendar.getInstance();
             long startTime = new java.util.Date().getTime();
 
             // Create 1st level category
             for (int i = 1; i <= categoryAmountLevelOne; i++) {
-                categoryMapper.create(new Category(categoryNameLevelOne + i, 0));
+                categoryMapper.create(new Category(categoryPrefixLevelOne + i, 0));
                 Category parentCategory = categoryMapper.findLastRow();
 
                 // Create 2nd level category
                 for (int j = 1; j <= categoryAmountLevelTwo; j++) {
-                    categoryMapper.create(new Category(categoryNameLevelTwo + j, parentCategory.getId()));
+                    categoryMapper.create(new Category(categoryPrefixLevelTwo + j, parentCategory.getId()));
                     Category category = categoryMapper.findLastRow();
 
                     // Create product per category
-                    Calendar calendar = Calendar.getInstance();
-                    Double productPrice = 500.00;
                     String prefix = parentCategory.getName() + "_" + category.getName();
                     for (int k = 1; k <= productAmount; k++) {
-                        calendar.add(Calendar.MINUTE, -k * 10);
+                        calendar.add(Calendar.MINUTE, -10);
                         productMapper.create(
                                 new Product(
-                                        prefix + "_" + productName + k,
-                                        productPrice + (k * 150),
+                                        prefix + "_" + productPrefix + k,
+                                        productPrice + (k * 200),
                                         new Date(calendar.getTimeInMillis()),
                                         category));
                     }
