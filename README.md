@@ -1,9 +1,3 @@
----
-Developer: Tury
-Stack: Java
-Framework: SpringBoot
----
-
 Annyeong
 ================
 Product Management Project
@@ -11,9 +5,10 @@ Product Management Project
 ### Technology
 - Java
 - Maven
+- SpringBoot
+- Bootstrap
 - MySQL
 - MyBatis
-- Bootstrap
 
 ### Running Project
 Clone project from repository
