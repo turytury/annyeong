@@ -8,11 +8,12 @@ Annyeong
 ================
 Product Management Project
 
-### Prerequisites
+### Technology
 - Java
 - Maven
 - MySQL
-- myBatis
+- MyBatis
+- Bootstrap
 
 ### Running Project
 Clone project from repository
@@ -26,4 +27,9 @@ mvn clean install
 Run project
 ```bash
 mvn spring-boot:run
+```
+
+### Main Function
+```bash
+Create, Read, Update, Delete, Search, Sort category and product.
 ```
